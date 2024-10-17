@@ -1,0 +1,107 @@
+[gd_scene load_steps=8 format=3 uid="uid://di2lm2287y201"]
+
+[ext_resource type="Script" path="res://Codes/sword.gd" id="1_os1hy"]
+[ext_resource type="Texture2D" uid="uid://byxfsx5mwlbix" path="res://Sprites/sword.png" id="2_mk1f4"]
+[ext_resource type="AudioStream" uid="uid://cmlxlpanx7lnv" path="res://Audio/sword.mp3" id="3_07b0w"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wa41o"]
+size = Vector2(17, 10)
+
+[sub_resource type="Animation" id="Animation_gwhbp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("sprite2d:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_h7wb4"]
+resource_name = "pickup"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("sprite2d:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xgb6i"]
+_data = {
+"RESET": SubResource("Animation_gwhbp"),
+"pickup": SubResource("Animation_h7wb4")
+}
+
+[node name="sword" type="Area2D"]
+script = ExtResource("1_os1hy")
+
+[node name="sprite2d" type="Sprite2D" parent="."]
+position = Vector2(0, -48)
+texture = ExtResource("2_mk1f4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, -48)
+shape = SubResource("RectangleShape2D_wa41o")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_xgb6i")
+}
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_07b0w")
+volume_db = 6.455
+pitch_scale = 1.94
+bus = &"SFX"
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

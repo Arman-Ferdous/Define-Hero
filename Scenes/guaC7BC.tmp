@@ -1,0 +1,112 @@
+[gd_scene load_steps=12 format=3 uid="uid://bi6q1swfb6rle"]
+
+[ext_resource type="Script" path="res://Codes/guard.gd" id="1_gghl5"]
+[ext_resource type="Texture2D" uid="uid://c304ldq86b22" path="res://Sprites/guard.png" id="1_hplks"]
+[ext_resource type="Texture2D" uid="uid://chawy48p83qdw" path="res://Sprites/eyes.png" id="2_pjibs"]
+[ext_resource type="Texture2D" uid="uid://bw4hily1mt527" path="res://Sprites/light.png" id="3_qbbi3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5gouy"]
+atlas = ExtResource("1_hplks")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bn0qj"]
+atlas = ExtResource("1_hplks")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_iouni"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5gouy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bn0qj")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dkim6"]
+radius = 6.0
+
+[sub_resource type="Animation" id="Animation_p6lru"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_21jo1"]
+resource_name = "blink"
+length = 7.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 3, 3.26667, 5, 5.13333, 5.3, 5.43333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [true, false, true, false, true, false, true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gpk03"]
+_data = {
+"RESET": SubResource("Animation_p6lru"),
+"blink": SubResource("Animation_21jo1")
+}
+
+[node name="guard" type="CharacterBody2D"]
+script = ExtResource("1_gghl5")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_iouni")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_dkim6")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -2)
+scale = Vector2(2, 1)
+texture = ExtResource("2_pjibs")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D"]
+libraries = {
+"": SubResource("AnimationLibrary_gpk03")
+}
+autoplay = "blink"
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+use_parent_material = true
+shadow_enabled = true
+texture = ExtResource("3_qbbi3")
+offset = Vector2(3.2, -55)
+texture_scale = 0.8
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+enabled = false
+target_position = Vector2(0, -94)
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+position = Vector2(4.76837e-07, -1)
+scale = Vector2(0.856328, 0.901688)
+polygon = PackedVector2Array(0, 0, -36.2011, -90.9406, -5.56839e-07, -102.031, 37.3688, -92.0496)
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]

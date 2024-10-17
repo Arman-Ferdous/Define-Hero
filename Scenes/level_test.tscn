@@ -1,0 +1,75 @@
+[gd_scene load_steps=10 format=3 uid="uid://cq4rmen4v3x1e"]
+
+[ext_resource type="Texture2D" uid="uid://beb3fbohhi3ce" path="res://Sprites/tempbg.jpg" id="1_mx15g"]
+[ext_resource type="Texture2D" uid="uid://bybp2j4tvclp" path="res://Sprites/walls.png" id="2_f85tv"]
+[ext_resource type="PackedScene" uid="uid://ciwri638cvymt" path="res://Scenes/player.tscn" id="3_scpl3"]
+[ext_resource type="PackedScene" uid="uid://bi6q1swfb6rle" path="res://Scenes/guard.tscn" id="4_pcxaq"]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_iiwyd"]
+polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_ks6ss"]
+polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_6omj4"]
+polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qwnhg"]
+texture = ExtResource("2_f85tv")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+0:1/0 = 0
+0:1/0/occlusion_layer_0/polygon = SubResource("OccluderPolygon2D_iiwyd")
+0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+1:1/0 = 0
+1:1/0/occlusion_layer_0/polygon = SubResource("OccluderPolygon2D_ks6ss")
+1:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+2:1/0 = 0
+2:1/0/occlusion_layer_0/polygon = SubResource("OccluderPolygon2D_6omj4")
+2:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+3:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_k8yr7"]
+occlusion_layer_0/light_mask = 3
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_qwnhg")
+
+[node name="Level_test" type="Node2D"]
+
+[node name="Tempbg" type="Sprite2D" parent="."]
+visible = false
+z_index = -10
+position = Vector2(61, 16)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("1_mx15g")
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_k8yr7")
+format = 2
+layer_0/name = "path"
+layer_0/tile_data = PackedInt32Array(262143, 0, 2, 196608, 0, 2, 196609, 0, 2, 196610, 0, 2, 196611, 0, 2, 196612, 0, 2, 196613, 0, 2, 196614, 0, 2, 196615, 0, 2, 196616, 0, 2, 131080, 0, 2, 131079, 0, 2, 131078, 0, 2, 131077, 0, 2, 131076, 0, 2, 131075, 0, 2, 131074, 0, 2, 131073, 0, 2, 131072, 0, 2, 196607, 0, 2, 131071, 0, 2, 65536, 0, 2, 65537, 0, 2, 65538, 0, 2, 65539, 0, 2, 65540, 0, 2, 65541, 0, 2, 65542, 0, 2, 65543, 0, 2, 7, 0, 2, 8, 0, 2, 65544, 0, 2, -65528, 0, 2, -131064, 0, 2, -131065, 0, 2, -131066, 0, 2, -131067, 0, 2, -131068, 0, 2, -131069, 0, 2, -131070, 0, 2, -131071, 0, 2, -131072, 0, 2, -65536, 0, 2, -1, 0, 2, 65535, 0, 2, -65537, 0, 2, -65529, 0, 2, -65530, 0, 2, 5, 0, 2, 4, 0, 2, 3, 0, 2, 2, 0, 2, 1, 0, 2, 0, 0, 2, -65532, 0, 2, -65531, 0, 2, -65533, 0, 2, -65534, 0, 2, -65535, 0, 2, 6, 0, 2)
+layer_1/name = "wall"
+layer_1/tile_data = PackedInt32Array(262147, 131072, 1, 262148, 131072, 1, 262149, 131072, 1, 262150, 131072, 1, 262151, 131072, 1, 262152, 131072, 1, 262153, 131072, 1, 196617, 131072, 1, 262146, 131072, 1, 262145, 131072, 1, 262144, 131072, 1, 327679, 131072, 1, 327678, 131072, 1, 262142, 131072, 1, 196606, 131072, 1, 131070, 131072, 1, 65534, 131072, 1, -2, 131072, 1, -65538, 131072, 1, -65527, 131072, 1, 9, 131072, 1, 65545, 131072, 1, 131081, 131072, 1, -131074, 131072, 1, -131073, 131072, 1, -196608, 131072, 1, -196607, 131072, 1, -196606, 131072, 1, -196605, 131072, 1, -196604, 131072, 1, -196603, 131072, 1, -196602, 131072, 1, -196601, 131072, 1, -196600, 131072, 1, -196599, 131072, 1, -131063, 131072, 1, 65540, 131072, 1, -65531, 131072, 1, -65529, 131072, 1, 65543, 131072, 1)
+
+[node name="player" parent="." instance=ExtResource("3_scpl3")]
+position = Vector2(31, 22)
+
+[node name="Camera2D" type="Camera2D" parent="player"]
+zoom = Vector2(4, 4)
+
+[node name="guard" parent="." instance=ExtResource("4_pcxaq")]
+position = Vector2(98, 61)
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+position = Vector2(-51, -10)
+color = Color(0.470076, 0.470076, 0.470076, 1)

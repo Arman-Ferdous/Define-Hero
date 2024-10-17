@@ -1,0 +1,62 @@
+[gd_scene load_steps=9 format=3 uid="uid://5vyav5hebvdt"]
+
+[ext_resource type="Script" path="res://Codes/computer_1.gd" id="1_fnhd0"]
+[ext_resource type="Texture2D" uid="uid://bdgs1wehh7j5c" path="res://Sprites/computer.png" id="2_7dovo"]
+[ext_resource type="AudioStream" uid="uid://p1jjnjjjwop3" path="res://Audio/computer.mp3" id="3_f3m7s"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_db1e7"]
+size = Vector2(44, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mhpy0"]
+size = Vector2(45, 29)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1c1le"]
+atlas = ExtResource("2_7dovo")
+region = Rect2(0, 0, 48, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_63bni"]
+atlas = ExtResource("2_7dovo")
+region = Rect2(0, 24, 48, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vh7r0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1c1le")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_63bni")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="computer1" type="Area2D"]
+position = Vector2(232, -342)
+script = ExtResource("1_fnhd0")
+metadata/_edit_group_ = true
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="tableHitbox" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_db1e7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, 5.5)
+shape = SubResource("RectangleShape2D_mhpy0")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_vh7r0")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_f3m7s")
+bus = &"SFX"
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

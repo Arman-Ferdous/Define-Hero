@@ -1,0 +1,116 @@
+[gd_scene load_steps=15 format=3 uid="uid://bvus1n33m13uc"]
+
+[ext_resource type="Script" path="res://Codes/boss.gd" id="1_gidh8"]
+[ext_resource type="Texture2D" uid="uid://co52aosssxuwy" path="res://Sprites/boss.png" id="1_p3hnp"]
+[ext_resource type="Texture2D" uid="uid://cbikwuqddm4j5" path="res://Sprites/laser_beam.png" id="3_mgfw4"]
+[ext_resource type="AudioStream" uid="uid://c5nk1mvkyn2jp" path="res://Audio/laser_beam.mp3" id="4_gludp"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ahxu5"]
+atlas = ExtResource("1_p3hnp")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_85ukb"]
+atlas = ExtResource("1_p3hnp")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pknn1"]
+atlas = ExtResource("1_p3hnp")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wdtrv"]
+atlas = ExtResource("1_p3hnp")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_uauk0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ahxu5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_85ukb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pknn1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wdtrv")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fwiy3"]
+radius = 16.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_na8qa"]
+radius = 8.0
+height = 144.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u0hls"]
+atlas = ExtResource("3_mgfw4")
+region = Rect2(0, 16, 128, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iq72q"]
+atlas = ExtResource("3_mgfw4")
+region = Rect2(0, 0, 128, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3pism"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u0hls")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iq72q")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="boss" type="CharacterBody2D"]
+script = ExtResource("1_gidh8")
+metadata/_edit_group_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_uauk0")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_fwiy3")
+
+[node name="bullet_cd" type="Timer" parent="."]
+wait_time = 0.2
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 8.0
+
+[node name="rest" type="Timer" parent="."]
+wait_time = 2.0
+
+[node name="beam" type="Area2D" parent="."]
+visible = false
+collision_layer = 6
+collision_mask = 6
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="beam"]
+position = Vector2(-56, 0)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_na8qa")
+disabled = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="beam"]
+position = Vector2(-64, 0)
+sprite_frames = SubResource("SpriteFrames_3pism")
+autoplay = "default"
+
+[node name="laser_beam" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_gludp")
+
+[connection signal="timeout" from="bullet_cd" to="." method="_on_bullet_cd_timeout"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="rest" to="." method="_on_rest_timeout"]
+[connection signal="area_entered" from="beam" to="." method="_on_beam_area_entered"]
+[connection signal="body_entered" from="beam" to="." method="_on_beam_body_entered"]

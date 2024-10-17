@@ -1,0 +1,44 @@
+[gd_scene load_steps=4 format=3 uid="uid://1p2wubqtne6j"]
+
+[ext_resource type="FontFile" uid="uid://iph384bwhd5r" path="res://Fonts/PixelOperator8-Bold.ttf" id="1_hxqpk"]
+[ext_resource type="Script" path="res://Codes/menu.gd" id="1_rosln"]
+[ext_resource type="Texture2D" uid="uid://ioele5b18w4f" path="res://Sprites/titlescreen.jpg" id="3_3w6am"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_rosln")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_left = 480.0
+offset_top = 456.0
+offset_right = 576.0
+offset_bottom = 512.0
+scale = Vector2(2.06091, 2.11608)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Play" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_hxqpk")
+text = "Play"
+
+[node name="Quit" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_hxqpk")
+text = "Quit"
+
+[node name="Titlescreen" type="Sprite2D" parent="MarginContainer/VBoxContainer"]
+z_index = -6
+position = Vector2(46.5814, -113.417)
+scale = Vector2(0.808215, 0.808215)
+texture = ExtResource("3_3w6am")
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]

@@ -1,0 +1,87 @@
+[gd_scene load_steps=10 format=3 uid="uid://blnj6aqj2cqeb"]
+
+[ext_resource type="Script" path="res://Codes/minion.gd" id="1_63dfc"]
+[ext_resource type="Texture2D" uid="uid://cr0nk8p3re2tt" path="res://Sprites/minion.png" id="2_7rkv2"]
+[ext_resource type="Texture2D" uid="uid://bw4hily1mt527" path="res://Sprites/light.png" id="4_a85vn"]
+[ext_resource type="AudioStream" uid="uid://bcis8svr67slp" path="res://Audio/minion.mp3" id="5_eycq1"]
+[ext_resource type="FontFile" uid="uid://iph384bwhd5r" path="res://Fonts/PixelOperator8-Bold.ttf" id="5_ysgtf"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ky4bg"]
+atlas = ExtResource("2_7rkv2")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k17p3"]
+atlas = ExtResource("2_7rkv2")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_iouni"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ky4bg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k17p3")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dkim6"]
+radius = 6.0
+
+[node name="minion" type="CharacterBody2D"]
+z_index = 3
+script = ExtResource("1_63dfc")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_iouni")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_dkim6")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+use_parent_material = true
+color = Color(0.9123, 0, 0.0123478, 1)
+energy = 3.0
+shadow_enabled = true
+texture = ExtResource("4_a85vn")
+offset = Vector2(3.2, -55)
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+enabled = false
+target_position = Vector2(0, -94)
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+position = Vector2(-2.84217e-14, 3)
+scale = Vector2(0.856328, 0.901688)
+polygon = PackedVector2Array(3.31902e-14, -3.32709, -50.2144, -103.14, 3.31902e-14, -117.557, 49.0466, -104.249)
+
+[node name="CanSeeReport" type="Label" parent="."]
+offset_left = 3.0
+offset_top = -7.0
+offset_right = 19.0
+offset_bottom = 16.0
+theme_override_colors/font_color = Color(0.919389, 0, 0.0068621, 1)
+theme_override_fonts/font = ExtResource("5_ysgtf")
+theme_override_font_sizes/font_size = 16
+text = "!"
+
+[node name="bullet_cd" type="Timer" parent="."]
+wait_time = 0.2
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_eycq1")
+volume_db = 1.0
+autoplay = true
+max_distance = 256.0
+bus = &"Music"
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
+[connection signal="timeout" from="bullet_cd" to="." method="_on_bullet_cd_timeout"]

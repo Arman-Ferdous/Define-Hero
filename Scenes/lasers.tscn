@@ -1,0 +1,64 @@
+[gd_scene load_steps=5 format=3 uid="uid://dvfaqo1egon03"]
+
+[ext_resource type="Script" path="res://Codes/turret.gd" id="1_w6ge0"]
+[ext_resource type="Texture2D" uid="uid://c4n2phrwmge5h" path="res://Sprites/turret_beam.png" id="2_44wb7"]
+[ext_resource type="AudioStream" uid="uid://bcis8svr67slp" path="res://Audio/minion.mp3" id="3_ax55n"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5ir0j"]
+size = Vector2(5, 44)
+
+[node name="Lasers" type="Node2D"]
+
+[node name="Laser_gate" type="Area2D" parent="."]
+script = ExtResource("1_w6ge0")
+
+[node name="Sprite2D" type="Sprite2D" parent="Laser_gate"]
+visible = false
+rotation = 1.5708
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("2_44wb7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Laser_gate"]
+position = Vector2(-8, 0)
+shape = SubResource("RectangleShape2D_5ir0j")
+
+[node name="PointLight2D" type="PointLight2D" parent="Laser_gate"]
+position = Vector2(-8, 1.81899e-12)
+rotation = 1.5708
+scale = Vector2(0.7, 0.7)
+color = Color(1, 0, 0.0823529, 1)
+energy = 3.35
+texture = ExtResource("2_44wb7")
+
+[node name="Laser_gate2" type="Area2D" parent="."]
+position = Vector2(6, 0)
+script = ExtResource("1_w6ge0")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Laser_gate2"]
+visible = false
+position = Vector2(408, -152)
+rotation = 1.5708
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("2_44wb7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Laser_gate2"]
+position = Vector2(2, 0)
+shape = SubResource("RectangleShape2D_5ir0j")
+
+[node name="PointLight2D" type="PointLight2D" parent="Laser_gate2"]
+position = Vector2(2, 0)
+rotation = 1.5708
+scale = Vector2(0.7, 0.7)
+color = Color(1, 0, 0.0823529, 1)
+energy = 3.35
+texture = ExtResource("2_44wb7")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_ax55n")
+autoplay = true
+max_distance = 256.0
+bus = &"SFX"
+
+[connection signal="body_entered" from="Laser_gate" to="Laser_gate" method="_on_body_entered"]
+[connection signal="body_entered" from="Laser_gate2" to="Laser_gate2" method="_on_body_entered"]
